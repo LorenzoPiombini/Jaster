@@ -37,6 +37,4 @@ I decided to rethink it and this is it, it is a very simple parser, it basically
 
 ---
 
-this is still under test, it miss parsing array completely,
-I am working on it...
 
