@@ -66,11 +66,14 @@ int main(void)
 
 	struct object user = {0};
 
-	char parsed[MAX_LENGTH][MAX_LENGTH];
-	for(int i = 0;i < MAX_LENGTH; i++)
-		memset(parsed[i],0,MAX_LENGTH);
-
 	int steps = parse_json(json, parsed);
+	
+	jenerator(steps,parsed,jen_str);	
+	for(int i = 0; i < steps; i++)
+		printf("%s -> %s\n",parsed[i],jen_str[i]);
+
+
+	return 0;
 
 	char *endptr;
 	long l = strtol(parsed[1],&endptr,10);
