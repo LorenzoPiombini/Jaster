@@ -5,12 +5,12 @@
 
 ## ✅ What Is Jaster?
 
-**Jaster** is a **zero-allocation**, **blazing-fast**, **JSON parser** written in **pure C**.  
+**Jaster** is a **zero-allocation**, **blazing-fast**, **JSON parser** written in **C**.  
 It doesn’t give you a cozy DOM or some bloated abstraction.  
 It gives you **raw power**.  
 You bring your structs.  
 You map your data.  
-And you break a sweat—just enough to earn it.
+And you break a sweat—just enough to earn it. 
 
 ---
 
@@ -21,9 +21,9 @@ Because you:
 - Want control.
 - Want **speed**.
 
-and I needed a fast parse for one of my porject, I was leaking memory everywhere,  
+and I needed a fast parser for one of my porject, I was leaking memory everywhere,  
 the memory usage of the application was increasing, so the one I wrote was pure garbage,
-i decided to rethink it and this is it.
+I decided to rethink it and this is it, it is a very simple parser, it basically traverses the **JSON** string.
 
 ---
 
