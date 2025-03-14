@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "jparse.h"
+#include "jaster.h"
 
 struct profile {
 	char first_name[MAX_LENGTH];
@@ -21,17 +21,48 @@ struct object{
 int main(void)
 {
 	char *json = 
-"{"
-"  \"id\": 123,"
-"  \"username\": \"simple_user\","
-"  \"active\": true,"
-"  \"score\": 99.5,"
-"  \"profile\": {"
-"    \"first_name\": \"John\","
-"    \"last_name\": \"Doe\","
-"    \"age\": 30"
-"  }"
-"}";
+		"{"
+		"  \"id\": 456,"
+		"  \"username\": \"complex_user\","
+		"  \"active\": false,"
+		"  \"score\": 1500.75,"
+		"  \"profile\": {"
+		"    \"first_name\": \"Alice\","
+		"    \"last_name\": \"Smith\","
+		"    \"age\": 28,"
+		"    \"contact\": {"
+		"      \"email\": \"alice.smith@example.com\","
+		"      \"phone\": \"123-456-7890\""
+		"    }"
+		"  },"
+		"  \"roles\": ["
+		"    \"admin\","
+		"    \"developer\","
+		"    \"tester\""
+		"  ],"
+		"  \"settings\": {"
+		"    \"theme\": \"dark\","
+		"    \"language\": \"en-US\","
+		"    \"notifications\": {"
+		"      \"email\": true,"
+		"      \"sms\": false,"
+		"      \"push\": true"
+		"    }"
+		"  },"
+		"  \"projects\": ["
+		"    {"
+		"      \"name\": \"Project Alpha\","
+		"      \"status\": \"active\","
+		"      \"budget\": 100000.00"
+		"    },"
+		"    {"
+		"      \"name\": \"Project Beta\","
+		"      \"status\": \"completed\","
+		"      \"budget\": 75000.50"
+		"    }"
+		"  ],"
+		"  \"last_login\": null"
+		"}";
 
 	struct object user = {0};
 

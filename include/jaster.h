@@ -1,5 +1,5 @@
-#ifndef _JPARSE_H
-#define _JPARSE_H
+#ifndef _JASTER_H
+#define _JASTER_H
 
 #define MAX_LENGTH 500
 
@@ -9,4 +9,4 @@ extern char parsed[MAX_LENGTH][MAX_LENGTH];
 
 int parse_json(char *json, char parsed[][MAX_LENGTH]);
 
-#endif /* jparse.h */
+#endif /* jaster.h */

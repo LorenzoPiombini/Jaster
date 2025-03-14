@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <ctype.h>
-#include "jparse.h"
+#include "jaster.h"
 
 
 /*static functions prototype*/
 static int parse_object(char **json, char parsed[][MAX_LENGTH], int *step);
 static int parse_string(char **json, char parsed[][MAX_LENGTH], int *step);
-/*static int parse_array(char **json);*/
+static int parse_array(char **json, char parsed[][MAX_LENGTH], int *step);
 static int parse_literal(char **json, char parsed[][MAX_LENGTH], int *step);
 static int parse_number(char **json, char parsed[][MAX_LENGTH], int *step);
 
@@ -31,8 +31,8 @@ int parse_json(char *json, char parsed[][MAX_LENGTH])
 			parse_string(&json,parsed,&step);
 			break;
 		case '[':
-			/*array
-			parse_array(&json);*/	
+			/*array */
+			parse_array(&json, parsed,&step);	
 			break;
 		default:
 			if(isalpha(*json))
@@ -69,8 +69,8 @@ static int parse_object(char **json, char parsed[][MAX_LENGTH], int *step)
 			parse_string(json,parsed,step);
 			break;
 		case '[':
-			/*array
-			parse_array(json);*/	
+			/*array */
+			parse_array(json,parsed,step);
 			break;
 		default:
 			if(isalpha(**json))
@@ -84,7 +84,6 @@ static int parse_object(char **json, char parsed[][MAX_LENGTH], int *step)
 		(*json)++;
 	}
 
-	(*step)++;
 	return 0;
 }
 
@@ -103,30 +102,41 @@ static int parse_string(char **json, char parsed[][MAX_LENGTH], int *step)
 	return 0;
 }
 
-#if 0
-static int parse_array(char **json)
+static int parse_array(char **json, char parsed[][MAX_LENGTH], int *step)
 {
-	printf("array content:");
 	(*json)++;
 	while(**json != ']') {
-		if(**json == '{'){
-			parse_object(json);
-			(*json)++;
-		}
-
 		if(**json == ',' || **json == ' '){
-			printf(" ");
 			(*json)++;
 			continue;
 		}
 
-		printf("%c",**json);
+		switch(**json){
+		case '{':
+			parse_object(json,parsed,step);
+			(*json)++;
+			break;
+		case '"':
+			/*string*/
+			parse_string(json,parsed,step);
+			break;
+		case '[':
+			/*array */
+			parse_array(json,parsed,step);
+			break;
+		default:
+			if(isalpha(**json))
+				parse_literal(json,parsed,step);
+			else if(isdigit(**json) || **json == '-')
+				parse_number(json,parsed,step);
+
+			break;
+		}
+
 		(*json)++;
 	}
-	printf("\n");
 	return 0;
 }
-#endif
 
 static int parse_literal(char **json,  char parsed[][MAX_LENGTH], int *step)
 {
