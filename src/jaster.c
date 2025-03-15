@@ -36,7 +36,7 @@ int jenerator(int steps, char parsed[][MAX_LENGTH],char jen_str[][5])
 
 	while(counter > 0){
 		for(int i = 0; i < steps;i++){
-			if(strncmp(jen_str[i],OBJk,2) == 0){
+			if(strncmp(jen_str[i],OBJk,2) == 0 ){
 				fputs(CODE_STRCT,fp);
 				parsed[i][0] = toupper(parsed[i][0]);
 				fputs(parsed[i],fp);
@@ -106,6 +106,7 @@ int jenerator(int steps, char parsed[][MAX_LENGTH],char jen_str[][5])
 	fputs(" {\n",fp);		
 
 	for(int i = 0, k = i+1; i < steps;i++, k++){
+		
 		if(jen_str[k][0] == 'v'){
 			fputs("\tchar ",fp);
 			fputs(parsed[k-1],fp);
@@ -138,6 +139,108 @@ int jenerator(int steps, char parsed[][MAX_LENGTH],char jen_str[][5])
 			fputs(parsed[i],fp);
 			fputs(";\n",fp);
 			continue;
+		}
+
+		if(strncmp(jen_str[i],ARRk,2) == 0){
+			int j = i+1;
+			int count = 0, el = 0, l = 0, n = 0, fl = 0, o = 0 ;
+			while(jen_str[j][0] == EL || jen_str[j][0] == LITERAL || jen_str[j][0] == NUM
+					|| strstr(jen_str[j],"k:") != NULL
+					|| strstr(jen_str[j],"v:") != NULL ){
+
+				if(jen_str[j][0] == EL)
+					el++;
+
+				if(jen_str[j][0] == LITERAL)
+					l++;
+
+				if(jen_str[j][0] == NUM){
+					n++;
+					if(is_float(parsed[k-1]))
+						fl++;
+				}
+			
+				if(strstr(jen_str[j],"k:") != NULL ){
+					if(jen_str[j][3] == '0' && o == 0)
+						o++;
+	
+				}
+				count++;
+				j++;
+			}
+			
+			if(count == el){
+				fputs("\tchar ",fp);
+				fputs(parsed[k-1],fp);
+				fputs("[",fp);
+				char nu[3] = {0};
+				if(snprintf(nu,3,"%d",el) < 0){
+					fprintf(stderr,"snprintf() failed, %s:%d",__FILE__,__LINE__-1);
+					return -1;
+				}
+				fputs(nu,fp);
+				fputs("];\n",fp);
+				continue;
+			}
+
+		
+			if(count == l){
+				fputs("\tint ",fp);
+				fputs(parsed[k-1],fp);
+				char nu[3] = {0};                                                                   
+				fputs("[",fp);
+				if(snprintf(nu,3,"%d",l) < 0){
+					fprintf(stderr,"snprintf() failed, %s:%d",__FILE__,__LINE__-1);
+					return -1;
+				}
+				fputs(nu,fp);
+				fputs("];\n",fp);
+				continue;
+
+			}
+
+			if(count == n){
+				if(n == fl){
+					fputs("\tdouble ",fp);
+					fputs(parsed[k-1],fp);
+					char nu[3] = {0};                                                                   
+					fputs("[",fp);
+					if(snprintf(nu,3,"%d",fl) < 0){
+						fprintf(stderr,"snprintf() failed, %s:%d",__FILE__,__LINE__-1);
+						return -1;
+					}
+					fputs(nu,fp);
+					fputs("];\n",fp);
+					continue;	
+				}
+
+				fputs("\tlong ",fp);
+                                fputs(parsed[k-1],fp);
+                                char nu[3] = {0};
+                                fputs("[",fp);
+                                if(snprintf(nu,3,"%d",n) < 0){
+                                        fprintf(stderr,"snprintf() failed, %s:%d",__FILE__,__LINE__-1);
+                                        return -1;
+                                }
+				fputs(nu,fp);
+                                fputs("];\n",fp);
+				continue;
+			}
+
+			if(count == o){
+				fputs("\t",fp);
+				fputs(CODE_STRCT,fp);
+				fputs("obj objs",fp);
+				char nu[3] = {0};
+                                fputs("[",fp);
+                                if(snprintf(nu,3,"%d",o) < 0){
+                                        fprintf(stderr,"snprintf() failed, %s:%d",__FILE__,__LINE__-1);
+                                        return -1;
+                                }
+				fputs(nu,fp);
+                                fputs("];\n",fp);
+			}
+			
 		}
 
 		if(jen_str[i][0] == '\0'){
