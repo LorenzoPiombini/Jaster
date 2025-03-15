@@ -29,5 +29,6 @@ extern char parsed[MAX_LENGTH][MAX_LENGTH];
 extern char jen_str[MAX_LENGTH][5];
 
 int parse_json(char *json, char parsed[][MAX_LENGTH]);
+int jenerator(int steps, char parsed[][MAX_LENGTH],char jen_str[][5]);
 
 #endif /* jaster.h */
