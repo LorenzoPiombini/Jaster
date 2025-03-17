@@ -6,9 +6,9 @@ OBJ_PROD = $(patsubst src/%.c, obj/%_prod.o, $(SRC))
 OBJlibjasterPR = obj/jaster_prod.o
 
 LIBNAMEjaster = jaster
-LIBDIR = /usr/lib
-INCLUDEDIR = /usr/include
-SHAREDLIBjaster = $(LIBNAMEjaster).so
+LIBDIR = /usr/local/lib
+INCLUDEDIR = /usr/local/include
+SHAREDLIBjaster = lib$(LIBNAMEjaster).so
 
 default: $(TARGET)
 
